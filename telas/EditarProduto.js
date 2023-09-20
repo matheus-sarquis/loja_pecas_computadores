@@ -5,18 +5,10 @@ import Produto from '../modelos/produto';
 
 const TelaEditarProduto = ({ route, navigation }) => {
     const { produto } = route.params;
-    console.log('idCategoria' + produto.categoriaId)
-    console.log('nome' + produto.nome)
-    console.log('valor' + produto.valor)
-
 
     const [novoidCategoria, setInovodCategoria] = useState(produto.categoriaId.toString());
     const [novonome, setnovoNome] = useState(produto.nome);
     const [novovalor, setnovoValor] = useState(produto.valor.toString());
-
-    console.log('novoidCategoria' + novoidCategoria)
-    console.log('novonome' + novonome)
-    console.log('novovalor' + novovalor)
 
     const handleSalvarEdicao = async () => {
         if (!novoidCategoria || !novonome || !novovalor) {
@@ -34,6 +26,7 @@ const TelaEditarProduto = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Editar Produto</Text>
+            <Text>Nome do Produto</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nome do Produto"
@@ -41,6 +34,7 @@ const TelaEditarProduto = ({ route, navigation }) => {
                 editable={true}
                 onChangeText={setnovoNome}
             />
+            <Text>Id da Categoria</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Id da Categoria"
@@ -48,6 +42,7 @@ const TelaEditarProduto = ({ route, navigation }) => {
                 editable={true}
                 onChangeText={setInovodCategoria}
             />
+            <Text>Valor do Produto</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Valor do Produto"

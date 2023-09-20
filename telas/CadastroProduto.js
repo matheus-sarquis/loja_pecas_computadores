@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import Produto from '../modelos/produto'
 import { insertProdutos } from '../database/protudosDb';
 
-const CadastroProdutoScreen = () => {
+const CadastroProdutoScreen = ({ navigation }) => {
     const [idCategoria, setIdCategoria] = useState('');
     const [nome, setNome] = useState('');
     const [valor, setValor] = useState('');
@@ -17,6 +17,8 @@ const CadastroProdutoScreen = () => {
         const novoProduto = new Produto(null, idCategoria, nome, valor)
 
         insertProdutos(novoProduto);
+
+        navigation.navigate('Inicial');
     };
 
     return (

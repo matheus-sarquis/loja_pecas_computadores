@@ -16,6 +16,8 @@ const CadastroCategoriaScreen = ({ navigation }) => {
         const novaCategoria = new Categoria(null, categoriaNome)
 
         insertCategorias(novaCategoria);
+
+        navigation.navigate('Inicial');
     };
 
     return (

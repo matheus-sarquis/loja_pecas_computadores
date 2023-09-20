@@ -10,12 +10,15 @@ import TelaCadastroCategoria from './telas/CadastroCategoria';
 import TelaListaCategorias from './telas/ListaCategorias';
 import TelaCadastroProduto from './telas/CadastroProduto';
 import TelaEditarProduto from './telas/EditarProduto';
+import TelaEditarCategoria from './telas/EditarCategoria';
 
 const Stack = createStackNavigator();
 
 function Navigator() {
     const [cart, setCart] = useState([]);
     const [produto, setProduto] = useState([]);
+    const [categoria, setCategoria] = useState([]);
+
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Inicial">
@@ -27,6 +30,7 @@ function Navigator() {
                 <Stack.Screen name="CadastroProduto" component={TelaCadastroProduto} />
                 <Stack.Screen name="ListaCategorias" component={TelaListaCategorias} />
                 <Stack.Screen name="EditarProdutos" component={TelaEditarProduto} produto={produto} />
+                <Stack.Screen name="EditarCategorias" component={TelaEditarCategoria} categoria={categoria} />
             </Stack.Navigator>
         </NavigationContainer>
     );

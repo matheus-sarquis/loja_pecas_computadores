@@ -53,12 +53,13 @@ const updateCategorias = (categoria) => {
     db.transaction((tx) => {
       tx.executeSql(
         'UPDATE categorias SET nome=? WHERE id=?',
-        [categoria.nome],
+        [categoria.nome, categoria.id],
         (_, result) => {
           const newCategoria = new Categoria(
             result.id,
             categoria.name
           );
+          console.log('atualizado' + newCategoria)
           resolve(newCategoria);
         },
         (_, error) => {
