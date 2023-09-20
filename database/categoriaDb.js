@@ -17,7 +17,6 @@ const getCategorias = () => {
           result.push(newProductModel);
         }
         resolve(result);
-        console.log(result)
       })
     },
       error => {
@@ -59,7 +58,6 @@ const updateCategorias = (categoria) => {
             result.id,
             categoria.name
           );
-          console.log('atualizado' + newCategoria)
           resolve(newCategoria);
         },
         (_, error) => {

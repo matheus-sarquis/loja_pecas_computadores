@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 export function getConexao() {
-    const db = SQLite.openDatabase('dbInfoShop.db');
+    const db = SQLite.openDatabase('dbinfoshopppp.db');
     return db;
 }
 
@@ -46,6 +46,7 @@ export async function createTableCategoria() {
         );
     });
 };
+
 export async function createTableVendas() {
     return new Promise((resolve, reject) => {
         const query = 'CREATE TABLE IF NOT EXISTS vendas (id INTEGER PRIMARY KEY AUTOINCREMENT, data DATE)';
@@ -63,9 +64,10 @@ export async function createTableVendas() {
         );
     });
 };
-export async function createTableVendasitem() {
+
+export async function createTableVendasItem() {
     return new Promise((resolve, reject) => {
-        const query = 'CREATE TABLE IF NOT EXISTS vendasItem (id INTEGER PRIMARY KEY AUTOINCREMENT, produtoId INTEGER, valorVenda REAL, quantidade INTEGER)';
+        const query = 'CREATE TABLE IF NOT EXISTS vendasItem (id INTEGER PRIMARY KEY AUTOINCREMENT, vendaId INTEGER, produtoId INTEGER, valorVenda INTEGER, quantidade INTEGER)';
 
         let db = getConexao();
 

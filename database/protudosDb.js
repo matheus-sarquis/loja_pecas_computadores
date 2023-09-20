@@ -62,7 +62,6 @@ const updateProdutos = (produto) => {
             produto.name,
             produto.value
           );
-          console.log(newProduto);
           resolve(newProduto);
         },
         (_, error) => {

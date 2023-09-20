@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { openDatabase } from 'expo-sqlite';
+import Venda from '../modelos/venda';
+import VendaItem from '../modelos/vendaItem';
+import { insertVendasItem } from '../database/vendasItemDb';
+import { insertVendas } from '../database/vendasDb';
 
 function CustomButton({ title, onPress, backgroundColor }) {
     return (
@@ -13,49 +16,79 @@ function CustomButton({ title, onPress, backgroundColor }) {
     );
 }
 
+const calculaValorTotal = (cart) => {
+    let valorFinal = 0;
+
+    cart.forEach(element => {
+        valorFinal += element.valor * element.quantidade;
+    });
+
+    return valorFinal;
+};
+
 const TelaPagamento = ({ route, navigation }) => {
-    const {productsSold, saleDate } = route.params;
+    const { cart, saleDate } = route.params;
+
+    const efetuarvenda = () => {
+        const novaVenda = new Venda(null, saleDate)
+
+        insertVendas(novaVenda).then(insertedId => {
+            let iddaVenda = insertedId;
+            cart.forEach(element => {
+                const novaVendaItem = new VendaItem(null, iddaVenda, element.id, element.valor * element.quantidade, element.quantidade);
+                insertVendasItem(novaVendaItem);
+            });
+        }).catch(error => {
+            console.error('Erro ao inserir o registro:', error);
+        });
+
+        navigation.navigate('Inicial');
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Detalhes da Compra</Text>
+            <Text style={styles.titulo}>Detalhes da Compra</Text>
             <Text>Data da Venda: {saleDate}</Text>
-            <Text>Produtos Vendidos:</Text>
+            <Text>Valor Total: R${calculaValorTotal(cart)}</Text>
+            <Text></Text>
+            <Text style={styles.subtitulo}>Produtos Vendidos:</Text>
             <FlatList
-                data={productsSold}
+                data={cart}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.productItem}>
-                        <Text>Nome: {item.name}</Text>
-                        <Text>Quantidade: {item.quantity}</Text>
-                        <Text>Preço Unitário: ${item.price}</Text>
+                    <View style={styles.cart}>
+                        <Text>Nome: {item.nome}</Text>
+                        <Text>Id da Categoria: {item.categoriaId}</Text>
+                        <Text>Quantidade: {item.quantidade}</Text>
+                        <Text>Preço Unitário: ${item.valor}</Text>
                     </View>
                 )}
             />
             <CustomButton
                 title="Finalizar Compra"
-                onPress={() => navigation.navigate('Checkout', {
-                    saleCode: saleCode,
-                    productsSold: productsSold,
-                    saleDate: saleDate,
-                })}
-                backgroundColor="green" // Cor de fundo personalizada
+                onPress={efetuarvenda}
+                backgroundColor="green"
             />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    subtitulo: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 16,
+    },
     container: {
         flex: 1,
         padding: 20,
     },
-    title: {
+    titulo: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
     },
-    productItem: {
+    cart: {
         marginBottom: 10,
     },
     button: {

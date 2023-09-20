@@ -15,6 +15,25 @@ function CustomButton({ title, onPress, backgroundColor }) {
 const TelaCarrinho = ({ route, navigation }) => {
     const { cart, removeItem } = route.params;
 
+    const getCurrentDateTime = () => {
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+        const hours = currentDate.getHours();
+        const minutes = currentDate.getMinutes();
+        const seconds = currentDate.getSeconds();
+
+        const formattedDay = day < 10 ? `0${day}` : day;
+        const formattedMonth = month < 10 ? `0${month}` : month;
+        const formattedHours = hours < 10 ? `0${hours}` : hours;
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+        return `${formattedDay}/${formattedMonth}/${year} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    };
+
+
     const handleRemoveItem = (item) => {
         removeItem(item, cart);
     };
@@ -40,8 +59,8 @@ const TelaCarrinho = ({ route, navigation }) => {
             />
             <CustomButton
                 title="Finalizar Compra"
-                onPress={() => navigation.navigate('Checkout', { cart: cart, })}
-                backgroundColor="green" // Cor de fundo personalizada
+                onPress={() => navigation.navigate('Pagamento', { cart: cart, saleDate: getCurrentDate() })}
+                backgroundColor="green"
             />
         </View>
     );
